@@ -1,0 +1,65 @@
+<div class="container" role="main">
+  <h1>{{ title }}</h1>
+  <div class="div-table">
+    <table mat-table [dataSource]="dataSource">
+  
+      <!-- Position Column -->
+      <ng-container matColumnDef="Nombre">
+        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="Edad">
+        <th mat-header-cell *matHeaderCellDef> Edad </th>
+        <td mat-cell *matCellDef="let element"> {{element.edad}} </td>
+      </ng-container>
+  
+      <!-- Sexo Column -->
+      <ng-container matColumnDef="Sexo">
+        <th mat-header-cell *matHeaderCellDef> Sexo </th>
+        <td mat-cell *matCellDef="let element"> {{element.sexo}} </td>
+      </ng-container>
+  
+      <!-- Documeto Column -->
+      <ng-container matColumnDef="Documento">
+        <th mat-header-cell *matHeaderCellDef> Documento </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="element.documento!=''">
+
+              <a download href="{{element.documento}}"> {{element.documento}}</a>
+
+          </div>
+         
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+  
+</div>
+<div>
+  <form  novalidate>
+    <label>
+      Name:
+      <input type="text" [formControl]="name" required>
+    </label>
+    <label for="file">File
+
+      <input 
+      [formControl]="file"
+        id="file" 
+        type="file" 
+        class="form-control"
+      >
+
+    </label>
+    
+    <button type="button" (click)="onSubmit()">Enviar</button>
+  </form>
+</div>
+<router-outlet></router-outlet>
