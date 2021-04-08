@@ -2,13 +2,42 @@ h1{
   text-align: center;
 }
 
-.div-table
+.div-table,form
 {
   margin-left: 100px;
   margin-right: 100px;
 }
 
+form{
+  padding-top: 40px;
+}
 
-table {
+label
+{
+  padding: 5px;
+}
+
+
+table 
+{
   width: 100%;
+}
+
+table tr:nth-child(odd) td
+{
+  background-color: aliceblue;
+}
+
+table tr:nth-child(even) td
+{
+  background-color: white;
+}
+
+input[type=text],
+input[type=text]:focus,
+input[type=number],
+input[type=number]:focus {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #2816c7de;
 }

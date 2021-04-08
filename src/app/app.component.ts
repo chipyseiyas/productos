@@ -4,6 +4,9 @@ import {MatTableDataSource} from '@angular/material/table';
 import { FormControl,Validators } from '@angular/forms';
 
 import { LocalStorageService } from './local-storage.service';
+import { map } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'app-root',
@@ -13,6 +16,7 @@ import { LocalStorageService } from './local-storage.service';
 export class AppComponent implements AfterViewInit
 { 
   title = 'Personas';
+  imageBaseData: any;
 
   displayedColumns: string[] = ['Nombre', 'Edad', 'Sexo', 'Documento'];
   
@@ -21,7 +25,11 @@ export class AppComponent implements AfterViewInit
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   name = new FormControl('',Validators.required);
+  edad = new FormControl('',Validators.required);
+  sexo = new FormControl('Hombre',Validators.required);
   file = new FormControl('',Validators.required);
+
+
 
   constructor( private localStorageService: LocalStorageService) {}
 
@@ -43,25 +51,40 @@ export class AppComponent implements AfterViewInit
     this.dataSource.paginator = this.paginator;
   }
 
+  handleFileInput(event:any) {
+    let me = this;
+    let file = event.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {    
+      me.imageBaseData=reader.result;
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+ }
+
   onSubmit()
   { 
-    if(this.name.valid)
-    {
-      console.log(this.file.value);
-
-
-     /* var datas = this.dataSource.data;
+    if(this.name.valid && this.edad.valid && this.sexo.valid && this.file.valid)
+    {               
+      var datas = this.dataSource.data;
       datas.push({
         nombre : this.name.value,
-        edad: 0,
-        sexo : '',
-        documento: ''       
+        edad: this.edad.value,
+        sexo : this.sexo.value,
+        documento: this.imageBaseData       
       });
       this.dataSource.data = datas;
 
       this.localStorageService.set('personas',datas);
 
-      this.name.setValue('');*/
+      this.name.setValue('');
+      this.edad.setValue('');
+      this.sexo.setValue('Hombre');
+      this.file.setValue('');
+      this.imageBaseData = '';
+                           
     }
   }
 }
